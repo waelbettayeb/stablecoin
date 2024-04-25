@@ -1,10 +1,11 @@
-import { NestFactory } from '@nestjs/core';
-import { Controller, Get, Module } from '@nestjs/common';
+import { APP_GUARD, NestFactory } from '@nestjs/core';
+import { Controller, Get, Module, ValidationPipe } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { AuthModule } from './auth/module';
 import { TransactionsModule } from './transactions/module';
 import { UsersModule } from './users/module';
 import { User } from './users/user.entity';
+import { JwtAuthGuard } from './auth/jwt.guard';
 
 @Controller()
 class AppController {
@@ -33,12 +34,18 @@ const DatabaseOptions: TypeOrmModuleOptions = {
     TransactionsModule,
   ],
   controllers: [AppController],
-  providers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+  ],
 })
 class AppModule {}
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.useGlobalPipes(new ValidationPipe());
   await app.listen(8080);
 }
 bootstrap();

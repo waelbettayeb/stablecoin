@@ -20,4 +20,8 @@ export class UsersService {
     user.password = password;
     return this.usersRepository.save(user);
   }
+
+  findByEmail(email: string) {
+    return this.usersRepository.findOne({ where: { email } });
+  }
 }

@@ -9,6 +9,6 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`email`, `password`, `address`)
 VALUES (
         'bettayebwael@gmail.com',
-        'password123',
-        '123 Test St'
+        '$2b$10$A9Gl.1vvVwxqnXivywzlN.Zzp1o.Q6stGPUpQaKyG3tL8IyHiOGoS',
+        '0x0AFfB0a96FBefAa97dCe488DfD97512346cf3Ab8'
     );
