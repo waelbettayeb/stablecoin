@@ -13,6 +13,6 @@ export class User {
   @Column()
   password: string;
 
-  @Column({ default: '' })
-  address: string;
+  @Column({ default: '', name: 'private_key' })
+  privateKey: string;
 }

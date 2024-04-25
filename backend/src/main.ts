@@ -6,6 +6,7 @@ import { TransactionsModule } from './transactions/module';
 import { UsersModule } from './users/module';
 import { User } from './users/user.entity';
 import { JwtAuthGuard } from './auth/jwt.guard';
+import { BalanceModule } from './balance/module';
 
 @Controller()
 class AppController {
@@ -32,6 +33,7 @@ const DatabaseOptions: TypeOrmModuleOptions = {
     UsersModule,
     AuthModule,
     TransactionsModule,
+    BalanceModule,
   ],
   controllers: [AppController],
   providers: [

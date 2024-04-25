@@ -38,6 +38,7 @@ export class AuthController {
 
   @Public()
   @Post('login')
+  @HttpCode(200)
   async login(@Body() credentials: CredentialsDto) {
     const user = await this.usersService.findByEmail(credentials.email);
     if (!user) {
@@ -73,7 +74,7 @@ export class AuthController {
       {
         email: user.email,
         id: user.id,
-        address: user.address,
+        privateKey: user.privateKey,
       },
       {
         expiresIn: '10m',
