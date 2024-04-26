@@ -45,9 +45,11 @@ const DatabaseOptions: TypeOrmModuleOptions = {
 })
 class AppModule {}
 
-async function bootstrap() {
+// I was planning to adapt the nestjs code to the existing Next.js code,
+// but I think this seperation was to decouple the web app and api.
+async function main() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
   await app.listen(8080);
 }
-bootstrap();
+main();
