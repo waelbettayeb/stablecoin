@@ -14,6 +14,7 @@ export default function Home() {
         <h6 className="text-xl">Send money</h6>
         <SendForm />
       </Paper>
+      {/* TODO: Move this to a parallel route so it can be rendered on seperate page on mobile */}
       <TransactionHistory />
     </main>
   );

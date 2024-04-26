@@ -1,9 +1,9 @@
+import "../globals.css";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-import { ThemeProvider } from "../components/ThemeProvider";
-import { ApiClientProvider } from "../data/Provider";
+import { ThemeProvider } from "./components/ThemeProvider";
+import { ApiClientProvider } from "./_data/Provider";
 
-import "../globals.css";
 const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   subsets: ["latin"],

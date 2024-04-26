@@ -13,6 +13,8 @@ async function requestInterceptor(
     return config;
 
   const token = await getToken();
+  // it would be better to store the token in cookies in our case
+  // However, we are using localStorage for simplicity
   if (token) config.headers.setAuthorization(`Bearer ${token}`);
   return config;
 }
