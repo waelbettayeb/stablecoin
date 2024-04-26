@@ -1,8 +1,10 @@
 "use client";
 import React from "react";
+import { useRouter } from "next/navigation";
 import { Button, TextField } from "@mui/material";
 import { Formik, Form, Field, FormikValues, FieldProps } from "formik";
 import * as Yup from "yup";
+import { useLogin } from "../service";
 
 interface LoginFormValues extends FormikValues {
   email: string;
@@ -15,15 +17,19 @@ const LOGIN_FORM_SCHEMA: Yup.Schema<LoginFormValues> = Yup.object().shape({
 });
 
 export default function LoginForm() {
+  const router = useRouter();
+  const loginMutation = useLogin({
+    onSuccess: () => {
+      router.replace("/");
+    },
+  });
   return (
     <Formik<LoginFormValues>
       validationSchema={LOGIN_FORM_SCHEMA}
       initialValues={{ email: "", password: "" }}
-      onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
-          setSubmitting(false);
-        }, 400);
+      onSubmit={async (values, { setSubmitting }) => {
+        await loginMutation.mutateAsync(values);
+        setSubmitting(false);
       }}
     >
       {({ isSubmitting }) => (

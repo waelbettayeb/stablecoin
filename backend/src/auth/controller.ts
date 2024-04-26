@@ -47,7 +47,7 @@ export class AuthController {
     if (!CredentialsDto.comparePassword(credentials.password, user.password)) {
       throw new UnauthorizedException('Invalid password');
     }
-    return this.createToken(user);
+    return { token: this.createToken(user) };
   }
 
   @Public()
@@ -66,7 +66,7 @@ export class AuthController {
     if (!user) {
       throw new InternalServerErrorException('User could not be created');
     }
-    return this.createToken(user);
+    return { token: this.createToken(user) };
   }
 
   createToken(user: User) {

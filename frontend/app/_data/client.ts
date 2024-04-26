@@ -20,6 +20,7 @@ async function requestInterceptor(
 }
 
 function initAxiosConfig() {
+  axios.defaults.baseURL = "http://localhost:8080";
   axios.interceptors.request.use(requestInterceptor, function (error) {
     // Do something with request error
     return Promise.reject(error);
