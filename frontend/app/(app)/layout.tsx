@@ -1,14 +1,36 @@
-import { AppBar, Button, Fab, Paper, Toolbar, Typography } from "@mui/material";
+"use client";
+import {
+  AppBar,
+  Button,
+  Modal,
+  Popover,
+  SwipeableDrawer,
+  Toolbar,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import { AuthGuard } from "./AuthGuard";
 import UserAvatar from "./UserAvatar";
 import { SendRounded, MonetizationOn } from "@mui/icons-material";
 import { BalanceStatus } from "./transactions/BalanceStatus";
+import { useState } from "react";
+import SendForm from "./SendForm";
 
 export default function AppLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const isMobile = useMediaQuery("(max-width: 640px)");
+
+  const toggleDrawer =
+    (newOpen: boolean) => (event: React.MouseEvent<HTMLButtonElement>) => {
+      setAnchorEl(event.currentTarget);
+      setOpen(newOpen);
+    };
+
   return (
     <AuthGuard>
       <div className="h-full">
@@ -20,7 +42,11 @@ export default function AppLayout({
             </Typography>
             <div className="flex gap-3 max-sm:hidden">
               <BalanceStatus />
-              <Button variant="contained" endIcon={<SendRounded />}>
+              <Button
+                variant="contained"
+                endIcon={<SendRounded />}
+                onClick={toggleDrawer(true)}
+              >
                 Send
               </Button>
             </div>
@@ -30,6 +56,25 @@ export default function AppLayout({
         </AppBar>
         <Toolbar />
         {children}
+        <Popover
+          open={!isMobile && open}
+          onClose={toggleDrawer(false)}
+          anchorEl={anchorEl}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "left",
+          }}
+        >
+          <SendForm />
+        </Popover>
+        <SwipeableDrawer
+          open={isMobile && open}
+          onClose={toggleDrawer(false)}
+          onOpen={() => toggleDrawer(true)}
+          anchor="bottom"
+        >
+          <SendForm />
+        </SwipeableDrawer>
         <AppBar
           component="nav"
           position="fixed"
@@ -44,6 +89,7 @@ export default function AppLayout({
               fullWidth
               size="large"
               className="justify-between"
+              onClick={toggleDrawer(true)}
             >
               Send
             </Button>

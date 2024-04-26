@@ -27,11 +27,14 @@ export class TransactionsController {
     }
     const web3 = this.newWeb3Client();
     web3.eth.accounts.wallet.add(user.privateKey);
-    return await web3.eth.sendTransaction({
-      from: web3.eth.accounts.wallet[0].address,
+
+    // TODO: return send transaction
+    const receipt = await web3.eth.sendTransaction({
       to: body.address,
-      value: web3.utils.toWei(body.amount, 'ether'),
+      value: body.amount,
     });
+
+    return receipt;
   }
 
   @Get('')
@@ -40,10 +43,7 @@ export class TransactionsController {
     if (!user) {
       throw new InternalServerErrorException('User not found');
     }
-    const web3 = this.newWeb3Client();
 
-    const address = web3.eth.accounts.wallet.add(user.privateKey)[0].address;
-    const transactions = await web3.eth.getTransaction(address);
-    return transactions;
+    // TODO: return transactions history
   }
 }

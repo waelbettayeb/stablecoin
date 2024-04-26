@@ -7,6 +7,7 @@ import { UsersModule } from './users/module';
 import { User } from './users/user.entity';
 import { JwtAuthGuard } from './auth/jwt.guard';
 import { BalanceModule } from './balance/module';
+import { Transaction } from './transactions/transaction.entity';
 
 @Controller()
 class AppController {
@@ -24,7 +25,7 @@ const DatabaseOptions: TypeOrmModuleOptions = {
   password: 'root',
   database: 'public',
   synchronize: true,
-  entities: [User],
+  entities: [User, Transaction],
 };
 
 @Module({
