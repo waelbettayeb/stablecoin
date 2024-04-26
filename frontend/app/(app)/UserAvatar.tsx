@@ -10,6 +10,7 @@ import {
 import { useState } from "react";
 import { logout } from "../(public)/service";
 import { useRouter } from "next/navigation";
+import { Person } from "@mui/icons-material";
 
 export default function UserAvatar() {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -29,10 +30,12 @@ export default function UserAvatar() {
   };
 
   return (
-    <div>
+    <div className="flex-1 flex justify-end">
       <Tooltip title="Open settings">
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          <Avatar>WB</Avatar>
+          <Avatar>
+            <Person />
+          </Avatar>
         </IconButton>
       </Tooltip>
       <Menu

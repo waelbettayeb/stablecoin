@@ -32,7 +32,7 @@ export default function SignupForm() {
         setSubmitting(false);
       }}
     >
-      {({ isSubmitting }) => (
+      {({ isSubmitting, isValid, isInitialValid, dirty }) => (
         <Form className="flex flex-col gap-3 max-w-xl py-4 w-full">
           <Field name="email">
             {({ field, form, meta }: FieldProps<FormValues["email"]>) => (
@@ -58,7 +58,7 @@ export default function SignupForm() {
           </Field>
           <Button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || (!isInitialValid && !dirty) || !isValid}
             variant="contained"
             color="primary"
             size="large"

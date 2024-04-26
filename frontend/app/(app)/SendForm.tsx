@@ -8,10 +8,11 @@ interface FormValues extends FormikValues {
   address: string;
   amount: number;
 }
-
 const FORM_SCHEMA: Yup.Schema<FormValues> = Yup.object().shape({
-  address: Yup.string().required(),
-  amount: Yup.number().required(),
+  address: Yup.string()
+    .matches(/^0x[a-fA-F0-9]{40}$/, "Invalid Ethereum address")
+    .required(),
+  amount: Yup.number().moreThan(0).required(),
 });
 
 export default function SendForm() {
@@ -26,7 +27,7 @@ export default function SendForm() {
         }, 400);
       }}
     >
-      {({ isSubmitting }) => (
+      {({ isSubmitting, isValid, isInitialValid, dirty }) => (
         <Form className="flex flex-col gap-3 py-4 w-full">
           <Field name="address">
             {({ field, form, meta }: FieldProps<FormValues["address"]>) => (
@@ -51,12 +52,12 @@ export default function SendForm() {
           </Field>
           <Button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || (!isInitialValid && !dirty) || !isValid}
             variant="contained"
             color="primary"
             size="large"
           >
-            Sign in
+            Send
           </Button>
         </Form>
       )}
