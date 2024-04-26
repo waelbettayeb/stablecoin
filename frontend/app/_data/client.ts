@@ -1,6 +1,12 @@
 "use client";
 import { QueryClient } from "react-query";
-import axios, { InternalAxiosRequestConfig } from "axios";
+import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
+
+type ErrorPayload = {
+  message: string;
+  error: string;
+  statusCode: number;
+};
 
 export function getToken() {
   return localStorage.getItem("token");
@@ -25,6 +31,15 @@ function initAxiosConfig() {
     // Do something with request error
     return Promise.reject(error);
   });
+
+  axios.interceptors.response.use(
+    undefined,
+    async (error: AxiosError<ErrorPayload>) => {
+      let data = error.response?.data;
+      if (data?.message) error.message = data?.message;
+      return Promise.reject(error);
+    }
+  );
 }
 initAxiosConfig();
 export const queryClient = new QueryClient();

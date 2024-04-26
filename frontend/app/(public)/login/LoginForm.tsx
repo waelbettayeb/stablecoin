@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { useRouter } from "next/navigation";
-import { Button, TextField } from "@mui/material";
+import { Alert, Button, TextField } from "@mui/material";
 import { Formik, Form, Field, FormikValues, FieldProps } from "formik";
 import * as Yup from "yup";
 import { useLogin } from "../service";
@@ -65,6 +65,9 @@ export default function LoginForm() {
           >
             Sign in
           </Button>
+          {loginMutation.error && (
+            <Alert severity="error">{loginMutation.error?.message}</Alert>
+          )}
         </Form>
       )}
     </Formik>

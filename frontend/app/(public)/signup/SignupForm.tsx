@@ -1,8 +1,10 @@
 "use client";
 import React from "react";
-import { Button, TextField } from "@mui/material";
+import { Alert, Button, TextField } from "@mui/material";
 import { Formik, Form, Field, FormikValues, FieldProps } from "formik";
 import * as Yup from "yup";
+import { useRegister } from "../service";
+import { useRouter } from "next/navigation";
 
 interface FormValues extends FormikValues {
   email: string;
@@ -15,15 +17,19 @@ const FORM_SCHEMA: Yup.Schema<FormValues> = Yup.object().shape({
 });
 
 export default function SignupForm() {
+  const router = useRouter();
+  const registerMutation = useRegister({
+    onSuccess: () => {
+      router.replace("/");
+    },
+  });
   return (
     <Formik<FormValues>
       validationSchema={FORM_SCHEMA}
       initialValues={{ email: "", password: "" }}
-      onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
-          setSubmitting(false);
-        }, 400);
+      onSubmit={async (values, { setSubmitting }) => {
+        await registerMutation.mutateAsync(values);
+        setSubmitting(false);
       }}
     >
       {({ isSubmitting }) => (
@@ -59,6 +65,9 @@ export default function SignupForm() {
           >
             Sign up
           </Button>
+          {registerMutation.error && (
+            <Alert severity="error">{registerMutation.error?.message}</Alert>
+          )}
         </Form>
       )}
     </Formik>
