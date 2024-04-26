@@ -8,6 +8,7 @@ import {
   InternalServerErrorException,
   HttpCode,
   Inject,
+  Request,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
@@ -67,6 +68,15 @@ export class AuthController {
       throw new InternalServerErrorException('User could not be created');
     }
     return { token: this.createToken(user) };
+  }
+
+  @Post('refresh')
+  async refresh(@Request() req: { user: User }) {
+    try {
+      return { token: this.createToken(req.user) };
+    } catch (error) {
+      throw new UnauthorizedException('Invalid token');
+    }
   }
 
   createToken(user: User) {

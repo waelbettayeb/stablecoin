@@ -15,8 +15,7 @@ export function getToken() {
 async function requestInterceptor(
   config: InternalAxiosRequestConfig
 ): Promise<InternalAxiosRequestConfig> {
-  if (["/login", "/refresh_token", "/register"].includes(config.url || ""))
-    return config;
+  if (["/login", "/register"].includes(config.url || "")) return config;
 
   const token = getToken();
   // it would be better to store the token in cookies in our case
@@ -37,6 +36,10 @@ function initAxiosConfig() {
     async (error: AxiosError<ErrorPayload>) => {
       let data = error.response?.data;
       if (data?.message) error.message = data?.message;
+      if (data?.statusCode === 401) {
+        localStorage.removeItem("token");
+        window.location.href = "/login";
+      }
       return Promise.reject(error);
     }
   );

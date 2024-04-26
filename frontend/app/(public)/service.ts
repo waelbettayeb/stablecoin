@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios, { AxiosError } from "axios";
 import { UseMutationOptions, useMutation } from "react-query";
 
 type Credential = {
@@ -20,20 +20,34 @@ export async function register(credential: Credential) {
   });
 }
 
+export async function refresh() {
+  return axios.post("/auth/refresh").then((res) => {
+    localStorage.setItem("token", res.data.token);
+    return res.data;
+  });
+}
+
 export async function logout() {
   localStorage.removeItem("token");
 }
 
 export const useLogin = (
   options?: Omit<
-    UseMutationOptions<AxiosResponse<any>, AxiosError, Credential, unknown>,
+    UseMutationOptions<any, AxiosError, Credential, unknown>,
     "mutationFn"
   >
 ) => useMutation(login, options);
 
 export const useRegister = (
   options?: Omit<
-    UseMutationOptions<AxiosResponse<any>, AxiosError, Credential, unknown>,
+    UseMutationOptions<any, AxiosError, Credential, unknown>,
     "mutationFn"
   >
 ) => useMutation(register, options);
+
+export const useRefresh = (
+  options?: Omit<
+    UseMutationOptions<any, AxiosError, unknown, unknown>,
+    "mutationFn"
+  >
+) => useMutation(refresh, options);
