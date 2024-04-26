@@ -16,7 +16,7 @@ export class BalanceController {
     return new Web3('https://eth.llamarpc.com');
   }
 
-  @Get('/balance')
+  @Get()
   async getBalance(@Request() req: any) {
     const user = await this.usersService.findOne(req.user.id);
     if (!user) {

@@ -2,8 +2,9 @@ import { AppBar, Button, Fab, Paper, Toolbar, Typography } from "@mui/material";
 import { AuthGuard } from "./AuthGuard";
 import UserAvatar from "./UserAvatar";
 import { SendRounded, MonetizationOn } from "@mui/icons-material";
+import { BalanceStatus } from "./transactions/BalanceStatus";
 
-export default function RootLayout({
+export default function AppLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -18,17 +19,7 @@ export default function RootLayout({
               <MonetizationOn className="sm:hidden" />
             </Typography>
             <div className="flex gap-3 max-sm:hidden">
-              <div>
-                <h6 className="text-xs dark:text-gray-400 text-gray-600">
-                  Balance
-                </h6>
-                <p className="text-xl">
-                  0.00
-                  <span className="text-sm dark:text-gray-400 text-gray-600">
-                    ETH
-                  </span>
-                </p>
-              </div>
+              <BalanceStatus />
               <Button variant="contained" endIcon={<SendRounded />}>
                 Send
               </Button>
@@ -46,17 +37,7 @@ export default function RootLayout({
           sx={{ top: "auto", bottom: 0 }}
         >
           <Toolbar className="gap-3 p-3">
-            <div>
-              <h6 className="text-xs dark:text-gray-400 text-gray-600">
-                Balance
-              </h6>
-              <p className="text-xl">
-                0.00
-                <span className="text-sm dark:text-gray-400 text-gray-600">
-                  ETH
-                </span>
-              </p>
-            </div>
+            <BalanceStatus />
             <Button
               variant="contained"
               endIcon={<SendRounded />}
