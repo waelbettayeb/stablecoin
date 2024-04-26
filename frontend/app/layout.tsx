@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-import "./globals.css";
+import { ThemeProvider } from "../components/ThemeProvider";
+import { ApiClientProvider } from "./data/Provider";
 
-import { ThemeProvider } from "./ThemeProvider";
-
+import "../globals.css";
 const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   subsets: ["latin"],
@@ -22,7 +22,9 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-dvh">
       <body className={`${poppins.className} min-h-full h-full`}>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ApiClientProvider>
+          <ThemeProvider>{children}</ThemeProvider>
+        </ApiClientProvider>
       </body>
     </html>
   );

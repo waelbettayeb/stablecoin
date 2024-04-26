@@ -1,6 +1,6 @@
 import React from "react";
-import SendForm from "./Form";
-import TransactionHistory from "./TransactionHistory";
+import SendForm from "./SendForm";
+import TransactionHistory from "./transactions/TransactionHistory";
 import { AppBar, Paper, Toolbar } from "@mui/material";
 
 export default function Home() {
